@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>POST</http_method>
+        <name>Submit Request</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+
+    // 1. อ่านข้อมูล JSON payload ที่ระบบภายนอกส่งเข้ามา (หัวใจข้อสอบ CAD: request.body.data)
+    var requestData = request.body.data;
+    
+    // 2. สร้าง Record ใหม่ลงในตาราง Equipment Request ด้วย GlideRecord
+    var grReq = new GlideRecord('x_2266883_employ_0_equipment_request');
+    grReq.initialize();
+    
+    // กำหนดค่าเริ่มต้น
+    grReq.setValue('requested_for', gs.getUserID());
+    grReq.setValue('justification', requestData.justification || 'Created via External Scripted REST API');
+    grReq.setValue('state', '1'); // 1 = Draft
+    
+    // ค้นหาสินค้าจากชื่อ หรือ sys_id ที่ส่งมา
+    if (requestData.item) {
+        var grItem = new GlideRecord('x_2266883_employ_0_equipment_item');
+        if (grItem.get('name', requestData.item) || grItem.get(requestData.item)) {
+            grReq.setValue('item', grItem.getUniqueValue());
+        }
+    }
+    
+    var newSysId = grReq.insert();
+    
+    // 3. กำหนด HTTP Status Code เป็น 201 Created (สร้างข้อมูลสำเร็จ)
+    response.setStatus(201);
+    
+    // 4. ส่ง Custom JSON Response กลับไปให้ระบบภายนอก
+    return {
+        "status": "success",
+        "message": "Equipment Request created successfully via REST API",
+        "sys_id": newSysId,
+        "number": grReq.getValue('number')
+    };
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_2266883_employ_0/equipment_service_api/request</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/request</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <support_trailing_slash>false</support_trailing_slash>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-10-17 09:34:37</sys_created_on>
+        <sys_id>038596a4c3c4d3104435ddec050131c6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Submit Request</sys_name>
+        <sys_package display_value="Employee Equipment Request" source="x_2266883_employ_0">8bb7b4e4c3c893104435ddec050131f5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Employee Equipment Request">8bb7b4e4c3c893104435ddec050131f5</sys_scope>
+        <sys_update_name>sys_ws_operation_038596a4c3c4d3104435ddec050131c6</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-10-17 09:34:37</sys_updated_on>
+        <web_service_definition display_value="Equipment Service API">45ff8e6cc384d3104435ddec05013120</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

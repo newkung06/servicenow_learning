@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_2266883_employ_0.EquipmentUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>EquipmentUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var EquipmentUtils = Class.create();
+EquipmentUtils.prototype = {
+    initialize: function() {
+    },
+
+    hasExceededRequestLimit: function(userId, maxLimit) {
+        if (!userId) return false;
+        if (!maxLimit) maxLimit = 3;
+
+        var reqGr = new GlideRecord('x_2266883_employ_0_equipment_request');
+        reqGr.addQuery('requested_for', userId);
+        // ค้นหาเฉพาะสถานะที่ยังไม่จบ (1=Draft, 2=Submitted, 3=Approved)
+        reqGr.addQuery('state', 'IN', '1,2,3');
+        reqGr.query();
+
+        var pendingCount = reqGr.getRowCount();
+        gs.info('[EquipmentUtils] User ' + userId + ' has ' + pendingCount + ' active requests.');
+
+        return pendingCount >= maxLimit;
+    },
+
+    type: 'EquipmentUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-10-17 07:01:37</sys_created_on>
+        <sys_id>254239acc380d3104435ddec050131a9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>EquipmentUtils</sys_name>
+        <sys_package display_value="Employee Equipment Request" source="x_2266883_employ_0">8bb7b4e4c3c893104435ddec050131f5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Employee Equipment Request">8bb7b4e4c3c893104435ddec050131f5</sys_scope>
+        <sys_update_name>sys_script_include_254239acc380d3104435ddec050131a9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-10-17 07:01:37</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="enforce_dot_walk_cross_scope_access=true" db_object_id="56cab46cc3c893104435ddec05013151" label="Equipment Request" max_length="40" name="x_2266883_employ_0_equipment_request" type="collection">
+        <element choice="3" label="State" max_length="255" name="state" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Rejected" sequence="3" value="4"/>
+                <element inactive_on_update="false" label="Submitted" sequence="1" value="2"/>
+                <element inactive_on_update="false" label="Draft" sequence="0" value="1"/>
+                <element inactive_on_update="false" label="Fulfilled" sequence="4" value="5"/>
+                <element inactive_on_update="false" label="Approved" sequence="2" value="3"/>
+            </choice>
+        </element>
+        <element label="Requested for" max_length="32" name="requested_for" reference="sys_user" type="reference"/>
+        <element label="Justification" max_length="1000" name="justification" type="string"/>
+        <element label="Approver" max_length="32" name="approver" reference="sys_user" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" default="javascript:global.getNextObjNumberPadded();" display="true" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Item" max_length="32" name="item" reference="x_2266883_employ_0_equipment_item" type="reference"/>
+        <index name="index">
+            <element name="approver"/>
+        </index>
+        <index name="index2">
+            <element name="item"/>
+        </index>
+        <index name="index3">
+            <element name="requested_for"/>
+        </index>
+    </element>
+</database>

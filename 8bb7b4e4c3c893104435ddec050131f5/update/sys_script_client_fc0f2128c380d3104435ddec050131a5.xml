@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Display High Value Warning</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+    if (g_scratchpad.isHighValue == true) {
+        g_form.addInfoMessage('⚠️ สินค้านี้เป็นสินค้าราคาสูง (High Value Asset: ฿' + g_scratchpad.price + ') กรุณาตรวจสอบเอกสารแนบและงบประมาณอย่างละเอียด');
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-10-17 06:46:15</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>fc0f2128c380d3104435ddec050131a5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Display High Value Warning</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Employee Equipment Request" source="x_2266883_employ_0">8bb7b4e4c3c893104435ddec050131f5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Employee Equipment Request">8bb7b4e4c3c893104435ddec050131f5</sys_scope>
+        <sys_update_name>sys_script_client_fc0f2128c380d3104435ddec050131a5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-10-17 06:46:15</sys_updated_on>
+        <table>x_2266883_employ_0_equipment_request</table>
+        <type>onLoad</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>
